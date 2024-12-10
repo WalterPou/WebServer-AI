@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatting AI</title>
+    <style>
+        /* Set the background color to dark */
+        body {
+            background-color: #2c2f38; /* Dark background */
+            color: #f1f1f1; /* Light text color for better readability */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Style the input box and button */
+        input, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        input {
+            background-color: #3e4451; /* Dark input box */
+            color: #f1f1f1; /* Light text color */
+            width: 300px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Slightly darker green on hover */
+        }
+
+        /* Style the server response */
+        h2 {
+            color: #f1f1f1; /* Light color for headings */
+            margin-top: 20px;
+        }
+
+        #serverResponse {
+            background-color: #3e4451; /* Dark background for response area */
+            color: #ffeb3b; /* Yellow text for emphasis */
+            padding: 15px;
+            border-radius: 5px;
+            width: 80%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat with your AI!</h1>
+
+    <!-- Input box and button -->
+    <input type="text" id="userInput" placeholder="Enter a message">
+    <button id="sendButton">Enter</button>
+
+    <h2>Server Response:</h2>
+    <p id="serverResponse"></p>
+
+    <script>
+        document.getElementById("sendButton").addEventListener("click", function() {
+            const userInput = document.getElementById("userInput").value;
+
+            if (!userInput) {
+                alert("Please enter a message!");
+                return;
+            }
+
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                document.getElementById("serverResponse").textContent = 'Server says: ' + data.response;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+            document.getElementById("userInput").value = '';
+        });
+    </script>
+</body>
+</html>
