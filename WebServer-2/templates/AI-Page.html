@@ -50,6 +50,12 @@
             margin-top: 20px;
         }
 
+        h1 {
+            color: #f1f1f1; /* Light color for headings */
+            margin-top: 20px;
+            text-decoration: underline;
+        }
+
         #serverResponse {
             background-color: #3e4451; /* Dark background for response area */
             color: #ffeb3b; /* Yellow text for emphasis */
@@ -61,13 +67,12 @@
     </style>
 </head>
 <body>
-    <h1>Chat with your AI!</h1>
+    <h1>PCT4-AI</h1>
 
-    <!-- Input box and button -->
     <input type="text" id="userInput" placeholder="Enter a message">
     <button id="sendButton">Enter</button>
 
-    <h2>Server Response:</h2>
+    <h2>Ai Response:</h2>
     <p id="serverResponse"></p>
 
     <script>
@@ -89,7 +94,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                document.getElementById("serverResponse").textContent = 'Server says: ' + data.response;
+                document.getElementById("serverResponse").textContent = 'AI says: ' + data.response;
             })
             .catch((error) => {
                 console.error('Error:', error);
