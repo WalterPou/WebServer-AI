@@ -121,6 +121,7 @@ class ArtificialBrain:
 
 @app.route('/')
 def login_page():
+    session['logged_in']=False
     return render_template('index.html')
 
 @app.route('/authenticate', methods=['POST'])
