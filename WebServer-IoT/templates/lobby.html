@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        Lobby
+    </title>
+    <style>
+        body {
+            background-color: rgb(54,54,54);
+            color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input, button {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .button-on {
+            background-color: yellowgreen;
+            color: white;
+            cursor: pointer;
+            transition-duration: 150ms;
+        }
+
+        .button-on:hover {
+            background-color: greenyellow;
+            scale: 1.1;
+        }
+
+        .button-off {
+            background-color: maroon;
+            color: white;
+            cursor: pointer;
+            transition-duration: 150ms;
+        }
+
+        .button-off:hover {
+            background-color: red;
+            scale: 1.1;
+        }
+
+        .switch-container {
+            background-color: rgb(30,30,30);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        h4 {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <body>
+        <div class="switch-container">
+            <h4>Light</h4>
+            <button class="button-on" id="On">On</button>
+            <button class="button-off" id="Off">Off</button>
+            <script>
+                document.getElementById('On').addEventListener('click', function() {
+                    fetch('/on', {
+                        method: "POST",
+                    })
+                    .then(()=>console.log('On'))
+                })
+                document.getElementById('Off').addEventListener('click', function() {
+                    fetch('/off', {
+                        method: "POST"
+                    })
+                    .then(()=>console.log('Off'))
+                })
+            </script>
+        </div>
+    </body>
+</html>

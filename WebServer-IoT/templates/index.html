@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        My WebSite
+    </title>
+    <style>
+        body {
+            background-color: rgb(54,54,54);
+            color: white;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input, button {
+            font-size: 16px;
+            font-family: Arial, Helvetica, sans-serif;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        input {
+            background-color: white;
+            color: black;
+            width: 300px;
+        }
+
+        button {
+            background-color: yellowgreen;
+            color: white;
+            cursor: pointer;
+            transition-duration: 150ms;
+        }
+
+        button:hover {
+            scale: 1.1;
+            background-color: greenyellow;
+        }
+
+        .logon-form {
+            background-color: gray;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <body>
+        <div class="logon-form">
+            <input id="Username" placeholder="Username">
+            <input id="Password" placeholder="Password">
+            <button id="Submit">Submit</button>
+            <script>
+                document.getElementById('Submit').addEventListener('click', function() {
+                    const username=document.getElementById('Username').value;
+                    const password=document.getElementById('Password').value;
+                    if (!username) {
+                        alert('Need Username.')
+                        return;
+                    }
+                    if (!password) {
+                        alert('Need Password.')
+                        return;
+                    }
+                    fetch('/authenticate', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({username: username, password: password})
+                    })
+                    .then(response=>response.json())
+                    .then(data=>{
+                        if (data.status=='success') {
+                            window.location.href='/lobby'
+                        }
+                        else {
+                            alert('Invalid Username or Password.')
+                            return;
+                        }
+                    })
+                    document.getElementById('Username').value='';
+                    document.getElementById('Password').value='';
+                })
+            </script>
+        </div>
+    </body>
+</html>
