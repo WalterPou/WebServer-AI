@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Server-Room (Data Center)</title>
+	<style>
+		body {
+			background-color: rgb(54,54,54);
+			color: white;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		input, button {
+			font-size: 16px;
+			font-family: Arial, sans-serif;
+			border: none;
+			border-radius: 5px;
+			margin: 10px;
+			padding: 10px;
+		}
+
+		input {
+			background-color: white;
+			color: black;
+			width: 300px;
+		}
+
+		button {
+			background-color: yellowgreen;
+			color: white;
+			cursor: pointer;
+			transition-duration: 150ms;
+		}
+
+		button:hover {
+			background-color: greenyellow;
+			scale: 1.1
+		}
+
+		.log-in_form {
+			background-color: rgb(30,30,30);
+			color: white;
+			margin: 10px;
+			padding: 10px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			border: none;
+			border-radius: 5px;
+			
+		}
+	</style>
+	<body>
+		<div class="log-in_form">
+			<input id="Username" placeholder="Server Name">
+			<input id="Password" placeholder="Server Password">
+			<button id="Submit">Submit</button>
+			<script>
+				document.getElementById('Submit').addEventListener('click', function() {
+					const username=document.getElementById('Username').value;
+					const password=document.getElementById('Password').value;
+					if (!username) {
+						alert('Need Username')
+						return;
+					}
+					if (!password) {
+						alert('Need Password')
+						return;
+					}
+					fetch('/authenticate', {
+						method: "POST",
+						headers: {"Content-Type": "application/json"},
+						body: JSON.stringify({username: username, password: password})
+					})
+					.then(response=>response.json())
+					.then(data=>{
+						if (data.status=='success') {
+							window.location.href='/control-page'
+						}
+						else {
+							alert('Invalid Password or Username')
+							return;
+						}
+					})
+					document.getElementById('Username').value='';
+					document.getElementById('Password').value='';
+				})
+			</script>
+		</div>
+	</body>
+<!html>

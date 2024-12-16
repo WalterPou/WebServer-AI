@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Contrl-Panel - SSLSSMS</title>
+	<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+	<style>
+		body {
+			background-color: rgb(54,54,54);
+			color: white;
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		input, button {
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			border: none;
+			border-radius: 5px;
+			margin: 10px;
+			padding: 10px;
+		}
+
+		button {
+			cursor: pointer;
+			transition-duration: 150ms;
+			background-color:yellowgreen;
+		}
+
+		button:hover {
+			background-color: greenyellow;
+			scale: 1.1;
+		}
+	</style>
+	<body>
+		<div id="chat-messages">
+			<script>
+				var socket=io.connect('http://192.168.1.10:8080');
+				socket.on('message', function(data) {
+					var message=document.createElement('div');
+					var user=document.getElementById('Username').value;
+					if (!user) {
+						alert('Need Username.')
+						return;
+					}
+					if (!message) {
+						return;
+					}
+					message.textContent=user+": "+data.message;
+					document.getElementById('chat-messages').appendChild(message)
+				});
+				
+				function sendMessage() {
+					var message=document.getElementById('message-input').value;
+					socket.emit('message', message);
+					document.getElementById('message-input').value='';
+				}
+			</script>
+		</div>
+		<input type="text" id="message-input" placeholder="Message">
+		<input type="text" id="Username" placeholder="Your Name">
+		<button onclick="sendMessage()">Send</button>
+	</body>
+<!html>
